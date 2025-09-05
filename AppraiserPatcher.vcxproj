@@ -35,13 +35,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -61,11 +61,18 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)\build_output\</OutDir>
     <IntDir>build_temp\$(Platform)\$(Configuration)\</IntDir>
+    <IncludePath>$(ProjectDir)lib\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)lib\libs\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)\build_output\</OutDir>
     <IntDir>build_temp\$(Platform)\$(Configuration)\</IntDir>
+    <IncludePath>$(ProjectDir)lib\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)lib\libs\x64;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Label="Vcpkg">
+    <VcpkgEnableManifest>false</VcpkgEnableManifest>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -83,6 +90,7 @@
       <EnableUAC>false</EnableUAC>
       <ImportLibrary />
       <AdditionalOptions>/NOIMPLIB %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>detours.lib;syelog.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>mkdir package &amp; copy build_output\*.dll package &amp; copy build_output\*.py package</Command>
@@ -109,6 +117,7 @@
       <EnableUAC>false</EnableUAC>
       <ImportLibrary />
       <AdditionalOptions>/NOIMPLIB %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>detours.lib;syelog.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>mkdir package &amp; copy build_output\*.dll package &amp; copy build_output\*.py package</Command>

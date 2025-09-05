@@ -46,6 +46,7 @@ def polling():
             poll_once()
         except Exception as e:
             import traceback; traceback.print_exc()
+            print(e)
         time.sleep(30.0)
 
 def main():
