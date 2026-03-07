@@ -1,4 +1,4 @@
-# AppraiserPatcher11: Kill Appraiser Blocker on Windows 11
+# AppraiserPatcher11 V3: Kill Appraiser Blocker on Windows 11
 
 ## What Is It
 

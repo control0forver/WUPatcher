@@ -35,13 +35,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -59,15 +59,15 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)\build_output\</OutDir>
-    <IntDir>build_temp\$(Platform)\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)\build\bin\</OutDir>
+    <IntDir>$(SolutionDir)\build\obj\$(Platform)\$(Configuration)\</IntDir>
     <IncludePath>$(ProjectDir)lib\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)lib\libs\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)\build_output\</OutDir>
-    <IntDir>build_temp\$(Platform)\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)\build\bin\</OutDir>
+    <IntDir>$(SolutionDir)\build\obj\$(Platform)\$(Configuration)\</IntDir>
     <IncludePath>$(ProjectDir)lib\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)lib\libs\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
@@ -93,7 +93,7 @@
       <AdditionalDependencies>detours.lib;syelog.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>mkdir package &amp; copy build_output\*.dll package &amp; copy build_output\*.py package</Command>
+      <Command>mkdir build\package &amp; copy build\bin\*.dll build\package &amp; copy build\bin\*.py build\package</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -120,7 +120,7 @@
       <AdditionalDependencies>detours.lib;syelog.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>mkdir package &amp; copy build_output\*.dll package &amp; copy build_output\*.py package</Command>
+      <Command>mkdir build\package &amp; copy build\bin\*.dll build\package &amp; copy build\bin\*.py build\package</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

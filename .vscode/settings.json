@@ -1,4 +1,7 @@
 {
+    "search.exclude": {
+        "**/build/obj": true
+    },
     "files.associations": {
         "string": "cpp",
         "filesystem": "cpp",
