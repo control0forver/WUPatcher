@@ -1,5 +1,7 @@
 # AppraiserPatcher11 V3: Kill Appraiser Blocker on Windows 11
 
+- Version 3.3 (4/15/2026)
+
 ## What Is It
 
 Appraiser.dll controls whether a device can installs a Windows 11 Update packages, and the policy it's using can be find in Appraiser_Data.ini.

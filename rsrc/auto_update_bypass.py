@@ -184,7 +184,7 @@ class Main:
         self.observer = Observer()
         
     async def run_async(self):
-        print("V3.2 @_@")
+        print("V3.3 (4/15/2026)@_@")
         
         if not is_admin():
             if rerun_as_admin():
