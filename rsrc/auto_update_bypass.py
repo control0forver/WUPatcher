@@ -18,6 +18,9 @@ from watchdog.events import FileSystemEventHandler
 SYSROOT = Path(os.environ['WINDIR'])
 SYSWIN32 = SYSROOT / "System32"
 WIN_SOFTWARE_DISTRIBUTION_DOWNLOAD = SYSROOT / "SoftwareDistribution" / "Download"
+EXCLUDE_TARGET_DIRS = [ # exclude dirs in Windows\SoftwareDistribution\Download
+    "SharedFileCache"
+]
 
 g_target_dirs_queue: Queue[Path] = Queue()
 g_cache_completed_update: typing.Set[str] = set()
@@ -28,15 +31,26 @@ def get_path_id(path: Path):
 def do_hook(targetDir):
     targetDir = Path(targetDir)
     targetDLL = (targetDir / "VERSION.dll")
+    
+    # Note:
+    #  Since some windows update, we can no longer create extra files in the 
+    #  target directory, otherwise, the Windows Update shows 'Download Error 0x...'
+    # =====
+    # if targetDLL.exists():
+    #     targetDLL.unlink()
+    # targetDLL.symlink_to("./AppraiserPatcher.dll")
+    # #shutil.copy("./AppraiserPatcher.dll", targetDLL)
+    # oriDll = (targetDir / "VERSION_.dll")
+    # if oriDll.exists():
+    #     oriDll.unlink()
+    # #oriDll.symlink_to(SYSWIN32 / "VERSION.dll")
+    # shutil.copy(SYSWIN32 / "VERSION.dll", oriDll)
+    
+    # So we just replace the VERSION.dll file only, and the ModCommandLine in the dll is enough for Windows Update to work at obsoleted devices
     if targetDLL.exists():
-        targetDLL.unlink()
-    targetDLL.symlink_to("./AppraiserPatcher.dll")
-    #shutil.copy("./AppraiserPatcher.dll", targetDLL)
-    oriDll = (targetDir / "VERSION_.dll")
-    if oriDll.exists():
-        oriDll.unlink()
-    #oriDll.symlink_to(SYSWIN32 / "VERSION.dll")
-    shutil.copy(SYSWIN32 / "VERSION.dll", oriDll)
+        # delete original file
+        os.remove(targetDLL)
+    shutil.copy("./AppraiserPatcher.dll", targetDLL)
 
 async def polling_async(interval = 5.0):
     import msvcrt # for kbhit, getch
@@ -54,6 +68,10 @@ async def polling_async(interval = 5.0):
                 did = get_path_id(entry)
                 if did in g_cache_completed_update:
                     _put_backs.pop()
+                    continue
+                if did in EXCLUDE_TARGET_DIRS:
+                    _put_backs.pop()
+                    print(f"[+ {datetime.now()}] Excluded {entry} ")
                     continue
                 # if not entry.is_dir():
                 #     continue
@@ -75,12 +93,12 @@ async def polling_async(interval = 5.0):
                     import traceback; traceback.print_exc()
             for entry in _put_backs:
                 # Queued for retry
-                print(f"[!] {entry} will be retried later")
+                print(f"[! {datetime.now()}] {entry} will be retried later")
                 g_target_dirs_queue.put(entry)
             
             if (nCount):
                 last_info_display = None
-                print(f"[+] Done {nCount} hook{'s' if nCount > 1 else ''}")
+                print(f"[+ {datetime.now()}] Done {nCount} hook{'s' if nCount > 1 else ''}")
             else:
                 last_info_display = "No update"
                 print("No update :)", end='', flush=True)
