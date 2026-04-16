@@ -1,4 +1,4 @@
-# AppraiserPatcher11 V3: Kill Appraiser Blocker on Windows 11
+# WUPatcher V3: Kill Appraiser Blocker on Windows 11
 
 - Version 3.3 (4/15/2026)
 
